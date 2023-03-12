@@ -6,6 +6,7 @@ data class Issue(
 
     @JSONField(name = "Issue")
     val issue: List<IssueItem?>? = null
+    
 ) {
     override fun toString(): String {
         return "Issue(issue=$issue)"
