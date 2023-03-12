@@ -4,10 +4,10 @@ import com.alibaba.fastjson.annotation.JSONField
 
 data class RateLimit(
 
-    @JSONField(name="rate")
+    @JSONField(name = "rate")
     val rate: Rate? = null,
 
-    @JSONField(name="resources")
+    @JSONField(name = "resources")
     val resources: Resources? = null
 ) {
     override fun toString(): String {
@@ -17,19 +17,19 @@ data class RateLimit(
 
 data class Core(
 
-    @JSONField(name="resource")
+    @JSONField(name = "resource")
     val resource: String? = null,
 
-    @JSONField(name="limit")
+    @JSONField(name = "limit")
     val limit: Int? = null,
 
-    @JSONField(name="reset")
+    @JSONField(name = "reset")
     val reset: Int? = null,
 
-    @JSONField(name="used")
+    @JSONField(name = "used")
     val used: Int? = null,
 
-    @JSONField(name="remaining")
+    @JSONField(name = "remaining")
     val remaining: Int? = null
 ) {
     override fun toString(): String {
@@ -39,19 +39,19 @@ data class Core(
 
 data class Rate(
 
-    @JSONField(name="resource")
+    @JSONField(name = "resource")
     val resource: String? = null,
 
-    @JSONField(name="limit")
+    @JSONField(name = "limit")
     val limit: Int? = null,
 
-    @JSONField(name="reset")
+    @JSONField(name = "reset")
     val reset: Int? = null,
 
-    @JSONField(name="used")
+    @JSONField(name = "used")
     val used: Int? = null,
 
-    @JSONField(name="remaining")
+    @JSONField(name = "remaining")
     val remaining: Int? = null
 ) {
     override fun toString(): String {
@@ -61,19 +61,19 @@ data class Rate(
 
 data class IntegrationManifest(
 
-    @JSONField(name="resource")
+    @JSONField(name = "resource")
     val resource: String? = null,
 
-    @JSONField(name="limit")
+    @JSONField(name = "limit")
     val limit: Int? = null,
 
-    @JSONField(name="reset")
+    @JSONField(name = "reset")
     val reset: Int? = null,
 
-    @JSONField(name="used")
+    @JSONField(name = "used")
     val used: Int? = null,
 
-    @JSONField(name="remaining")
+    @JSONField(name = "remaining")
     val remaining: Int? = null
 ) {
     override fun toString(): String {
@@ -83,16 +83,16 @@ data class IntegrationManifest(
 
 data class Resources(
 
-    @JSONField(name="core")
+    @JSONField(name = "core")
     val core: Core? = null,
 
-    @JSONField(name="search")
+    @JSONField(name = "search")
     val search: Search? = null,
 
-    @JSONField(name="graphql")
+    @JSONField(name = "graphql")
     val graphql: Graphql? = null,
 
-    @JSONField(name="integration_manifest")
+    @JSONField(name = "integration_manifest")
     val integrationManifest: IntegrationManifest? = null
 ) {
     override fun toString(): String {
@@ -102,19 +102,19 @@ data class Resources(
 
 data class Graphql(
 
-    @JSONField(name="resource")
+    @JSONField(name = "resource")
     val resource: String? = null,
 
-    @JSONField(name="limit")
+    @JSONField(name = "limit")
     val limit: Int? = null,
 
-    @JSONField(name="reset")
+    @JSONField(name = "reset")
     val reset: Int? = null,
 
-    @JSONField(name="used")
+    @JSONField(name = "used")
     val used: Int? = null,
 
-    @JSONField(name="remaining")
+    @JSONField(name = "remaining")
     val remaining: Int? = null
 ) {
     override fun toString(): String {
@@ -124,19 +124,19 @@ data class Graphql(
 
 data class Search(
 
-    @JSONField(name="resource")
+    @JSONField(name = "resource")
     val resource: String? = null,
 
-    @JSONField(name="limit")
+    @JSONField(name = "limit")
     val limit: Int? = null,
 
-    @JSONField(name="reset")
+    @JSONField(name = "reset")
     val reset: Int? = null,
 
-    @JSONField(name="used")
+    @JSONField(name = "used")
     val used: Int? = null,
 
-    @JSONField(name="remaining")
+    @JSONField(name = "remaining")
     val remaining: Int? = null
 ) {
     override fun toString(): String {

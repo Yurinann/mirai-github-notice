@@ -16,12 +16,9 @@ import com.hcyacg.GithubTask.Companion.users
 import com.hcyacg.github.Branches
 import kotlinx.coroutines.runBlocking
 import net.mamoe.mirai.console.plugin.name
-
 import net.mamoe.mirai.utils.MiraiLogger
-
 import java.io.File
 import java.io.InputStream
-import kotlin.math.log
 
 class Configurations {
     companion object {
@@ -74,7 +71,6 @@ class Configurations {
                     sha[e.toString()] = ""
                 }
 
-
                 groups = JSON.parseArray(projectJson.getString("group"))
                 for ((index, e) in groups.withIndex()) {
                     groups[index] = e.toString()
@@ -90,8 +86,6 @@ class Configurations {
 
                 token = projectJson.getString("token")
                 taskMillisecond = projectJson.getLong("task-millisecond")
-
-
 
                 branches = try {
                     Branches().getBranchesByRepo(project)
@@ -112,6 +106,5 @@ class Configurations {
             }
         }
     }
-
 
 }

@@ -3,12 +3,9 @@ package com.hcyacg.utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.mamoe.mirai.contact.Contact
-import net.mamoe.mirai.event.events.GroupMessageEvent
-import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.message.data.*
 import net.mamoe.mirai.utils.ExternalResource.Companion.toExternalResource
 import net.mamoe.mirai.utils.ExternalResource.Companion.uploadAsImage
-import net.mamoe.mirai.utils.MiraiExperimentalApi
 import java.util.*
 
 class CardUtil {
@@ -25,14 +22,11 @@ class CardUtil {
         time: String,
         event: Contact
     ): Message {
-
         val toExternalResource = ImageUtil.getImage(avatar).toByteArray().toExternalResource()
         val imageId: String = toExternalResource.uploadAsImage(event).imageId
         withContext(Dispatchers.IO) {
             toExternalResource.close()
         }
-
-
 
         return Image(imageId).plus(name).plus("\n")
             .plus("时间：$time").plus("\n")

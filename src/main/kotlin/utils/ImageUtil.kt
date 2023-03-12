@@ -13,8 +13,6 @@ import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
-import java.net.InetSocketAddress
-import java.net.Proxy
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 import javax.net.ssl.*
@@ -22,14 +20,16 @@ import javax.net.ssl.*
 
 class ImageUtil {
     companion object {
-        private val client = OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS).readTimeout(60000,
-            TimeUnit.MILLISECONDS)
+        private val client = OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS).readTimeout(
+            60000,
+            TimeUnit.MILLISECONDS
+        )
         private val headers = Headers.Builder()
             .add(
                 "user-agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36 Edg/84.0.522.59"
             )
-        private var isChange:Boolean = false
+        private var isChange: Boolean = false
 
 
         /**
@@ -37,7 +37,7 @@ class ImageUtil {
          */
         fun getImage(imageUri: String): ByteArrayOutputStream {
             val infoStream = ByteArrayOutputStream()
-            try{
+            try {
 
 //                val request = if (isChange){
 //                    Request.Builder().url(imageUri.replace("i.pximg.net","i.pixiv.cat")).headers(headers.build()).get().build()
@@ -45,7 +45,7 @@ class ImageUtil {
 //                    Request.Builder().url(imageUri).get().build()
 //                }
                 val request = Request.Builder().url(imageUri).headers(headers.build()).get().build()
-                val response: Response  = client.build().newCall(request).execute();
+                val response: Response = client.build().newCall(request).execute();
 
                 val `in` = response.body?.byteStream()
                 val buffer = ByteArray(2048)
@@ -58,7 +58,7 @@ class ImageUtil {
                 infoStream.write((Math.random() * 100).toInt() + 1)
                 infoStream.close()
                 return infoStream
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 return infoStream
             }
@@ -81,17 +81,21 @@ class ImageUtil {
          * @param angel 角度
          * @return 目标图片
          */
-        fun  rotate(src: Image, angel:Int): ByteArrayOutputStream
-        {
+        fun rotate(src: Image, angel: Int): ByteArrayOutputStream {
             val srcWidth: Int = src.getWidth(null);
-            val srcHeight : Int = src.getHeight (null);
-            val rectDes : Rectangle? = CalcRotatedSize ( Rectangle ( Dimension (
-                srcWidth, srcHeight)), angel)
+            val srcHeight: Int = src.getHeight(null);
+            val rectDes: Rectangle? = CalcRotatedSize(
+                Rectangle(
+                    Dimension(
+                        srcWidth, srcHeight
+                    )
+                ), angel
+            )
 
 
             var res: BufferedImage? = null
-            res = BufferedImage (rectDes!!.width, rectDes.height,BufferedImage.TYPE_INT_RGB);
-            val g2: Graphics2D = res.createGraphics ();
+            res = BufferedImage(rectDes!!.width, rectDes.height, BufferedImage.TYPE_INT_RGB);
+            val g2: Graphics2D = res.createGraphics();
             // transform(这里先平移、再旋转比较方便处理；绘图时会采用这些变化，绘图默认从画布的左上顶点开始绘画，源图片的左上顶点与画布左上顶点对齐，然后开始绘画，修改坐标原点后，绘画对应的画布起始点改变，起到平移的效果；然后旋转图片即可)
 
             //平移（原理修改坐标系原点，绘图起点变了，起到了平移的效果，如果作用于旋转，则为旋转中心点）
@@ -109,7 +113,7 @@ class ImageUtil {
 
 
             g2.drawImage(src, null, null);
-            return imageToBytes(res,"PNG")
+            return imageToBytes(res, "PNG")
         }
 
 
@@ -122,8 +126,8 @@ class ImageUtil {
          * image格式字符串.如"gif","png"
          * @return byte数组
          */
-        fun imageToBytes(bImage:BufferedImage, format:String):ByteArrayOutputStream {
-            val out : ByteArrayOutputStream = ByteArrayOutputStream();
+        fun imageToBytes(bImage: BufferedImage, format: String): ByteArrayOutputStream {
+            val out: ByteArrayOutputStream = ByteArrayOutputStream();
 
             try {
                 ImageIO.write(bImage, format, out);
@@ -146,7 +150,6 @@ class ImageUtil {
             val des_height = (src.height * cos).toInt() + (src.width * sin).toInt()
             return Rectangle(Dimension(des_width, des_height))
         }
-
 
 
     }

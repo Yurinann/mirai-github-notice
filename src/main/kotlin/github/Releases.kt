@@ -11,35 +11,37 @@ import entity.Release
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.console.util.ConsoleExperimentalApi
 import net.mamoe.mirai.console.util.ContactUtils.getFriendOrGroup
-import net.mamoe.mirai.console.util.cast
 import net.mamoe.mirai.utils.MiraiLogger
-import net.mamoe.mirai.utils.info
 import okhttp3.Headers
 import okhttp3.RequestBody
-import okhttp3.internal.closeQuietly
 import java.lang.String
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Any
+import kotlin.Exception
+import kotlin.OptIn
+import kotlin.toString
 
 
 class Releases {
     val logger: MiraiLogger = MiraiLogger.Factory.create(Releases::class, "Bot")
-    private val headers = Headers.Builder().add("Accept","application/vnd.github.v3+json").add("Authorization","token $token")
+    private val headers =
+        Headers.Builder().add("Accept", "application/vnd.github.v3+json").add("Authorization", "token $token")
     private val requestBody: RequestBody? = null
 
     @OptIn(ConsoleExperimentalApi::class)
     suspend fun checkReleaseUpdate(
         projects: Any?,
-    ){
+    ) {
         val bots = Bot.instances
         var time: kotlin.String? = null
-        try{
-            if (!RateLimits().isResidue()){
+        try {
+            if (!RateLimits().isResidue()) {
                 headers.removeAll("Authorization")
             }
-            val data =HttpUtil.request(
+            val data = HttpUtil.request(
                 method = HttpUtil.Companion.Method.GET,
                 uri = "https://api.github.com/repos/$projects/releases",
                 body = requestBody,
@@ -47,23 +49,23 @@ class Releases {
                 logger = logger
             )
 
-            if (null == data || JSONArray.parseArray(data).size < 1){
+            if (null == data || JSONArray.parseArray(data).size < 1) {
                 return
             }
 
-            val release = JSONObject.parseObject(JSONArray.parseArray(data)[0].toString(),Release::class.java)
+            val release = JSONObject.parseObject(JSONArray.parseArray(data)[0].toString(), Release::class.java)
 
-            if (null == releases[projects.toString()]?.nodeId){
+            if (null == releases[projects.toString()]?.nodeId) {
                 releases[projects.toString()] = release
                 return
             }
 
-            if (releases[projects.toString()]!!.nodeId == release.nodeId){
+            if (releases[projects.toString()]!!.nodeId == release.nodeId) {
                 return
             }
             releases[projects.toString()] = release
 
-            if (null != release.publishedAt){
+            if (null != release.publishedAt) {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 val myDate: Date = dateFormat.parse(release.publishedAt.toString().replace("Z", "+0000"))
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -72,14 +74,14 @@ class Releases {
             }
 
             for (e in GithubTask.groups) {
-                for (bot in bots){
+                for (bot in bots) {
                     bot.getGroup(e.toString().toLong())?.sendMessage(
                         CardUtil().process(
                             message = release.name.toString(),
                             html = release.htmlUrl.toString(),
                             avatar = release.author!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = release.assets!![0]!!.uploader!!.login.toString()+ "为${projects.toString()}更新了版本",
+                            name = release.assets!![0]!!.uploader!!.login.toString() + "为${projects.toString()}更新了版本",
                             event = bot.getFriendOrGroup(e.toString().toLong())
                         )
                     )
@@ -87,7 +89,7 @@ class Releases {
             }
 
             for (u in GithubTask.users) {
-                for (bot in bots){
+                for (bot in bots) {
                     bot.getStranger(u.toString().toLong())?.sendMessage(
                         CardUtil().process(
                             message = release.name.toString(),
@@ -100,17 +102,15 @@ class Releases {
                     )
                 }
             }
-        }catch (e: SocketTimeoutException){
+        } catch (e: SocketTimeoutException) {
             logger.warning("请求超时")
             return
-        }catch (e: ConnectException){
+        } catch (e: ConnectException) {
             GithubTask.logger.warning("无法连接到api.github.com")
             return
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-
 
 
     }

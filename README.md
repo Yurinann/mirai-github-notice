@@ -1,5 +1,7 @@
 # mirai-github-notice
+
 github项目更新通知
+
 - /github start 开始监控
 - /github stop 停止监控
 - /github reload 重载配置

@@ -7,7 +7,7 @@ data class Branch(
     var sha: String,
     var url: String,
     var protected: Boolean
-): Serializable {
+) : Serializable {
     override fun toString(): String {
         return "Branch(name='$name', sha='$sha', url='$url', protected=$protected)"
     }
