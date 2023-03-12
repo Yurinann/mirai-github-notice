@@ -1,7 +1,7 @@
 package com.hcyacg.github
 
-import com.alibaba.fastjson2.JSONArray
-import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
 import com.hcyacg.GithubTask
 import com.hcyacg.GithubTask.Companion.releases
 import com.hcyacg.GithubTask.Companion.token

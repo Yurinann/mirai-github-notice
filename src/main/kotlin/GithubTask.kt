@@ -1,7 +1,7 @@
 package com.hcyacg
 
-import com.alibaba.fastjson2.JSONArray
-import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
 import com.hcyacg.entity.Branch
 import com.hcyacg.github.Commits
 import com.hcyacg.github.Issues
@@ -58,17 +58,16 @@ class GithubTask {
                                 )
 
                             }
+
                             Releases().checkReleaseUpdate(
                                 projects = e,
                             )
-
                             Issues().checkIssuesUpdate(
                                 projects = e
                             )
                             Pulls().checkPullsUpdate(
                                 projects = e
                             )
-
                         }
                     }
                     if (!switch) {
