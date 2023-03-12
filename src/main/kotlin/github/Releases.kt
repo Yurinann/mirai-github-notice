@@ -14,7 +14,6 @@ import net.mamoe.mirai.console.util.ContactUtils.getFriendOrGroup
 import net.mamoe.mirai.utils.MiraiLogger
 import okhttp3.Headers
 import okhttp3.RequestBody
-import java.lang.String
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
@@ -69,7 +68,7 @@ class Releases {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US)
                 val myDate: Date = dateFormat.parse(release.publishedAt.toString().replace("Z", "+0000"))
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                time = sdf.format(Date(String.valueOf(myDate.time).toLong()))
+                time = sdf.format(Date(myDate.time))
 
             }
 
@@ -111,8 +110,6 @@ class Releases {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-
     }
 
 }

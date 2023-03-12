@@ -16,6 +16,9 @@ import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 import javax.net.ssl.*
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class ImageUtil {
@@ -38,14 +41,13 @@ class ImageUtil {
         fun getImage(imageUri: String): ByteArrayOutputStream {
             val infoStream = ByteArrayOutputStream()
             try {
-
 //                val request = if (isChange){
 //                    Request.Builder().url(imageUri.replace("i.pximg.net","i.pixiv.cat")).headers(headers.build()).get().build()
 //                }else{
 //                    Request.Builder().url(imageUri).get().build()
 //                }
                 val request = Request.Builder().url(imageUri).headers(headers.build()).get().build()
-                val response: Response = client.build().newCall(request).execute();
+                val response: Response = client.build().newCall(request).execute()
 
                 val `in` = response.body?.byteStream()
                 val buffer = ByteArray(2048)
@@ -68,7 +70,6 @@ class ImageUtil {
          * 将图片链接读取到内存转换成ByteArrayOutputStream，方便操作
          */
         fun getVideo(videoUri: String): InputStream? {
-
 //            val request: Request = Request.Builder().url(imageUri.replace("i.pximg.net","i.pixiv.cat")).get().build()
             val request: Request = Request.Builder().url(videoUri).get().build()
             return client.build().newCall(request).execute().body?.byteStream()
@@ -82,9 +83,9 @@ class ImageUtil {
          * @return 目标图片
          */
         fun rotate(src: Image, angel: Int): ByteArrayOutputStream {
-            val srcWidth: Int = src.getWidth(null);
-            val srcHeight: Int = src.getHeight(null);
-            val rectDes: Rectangle? = CalcRotatedSize(
+            val srcWidth: Int = src.getWidth(null)
+            val srcHeight: Int = src.getHeight(null)
+            val rectDes: Rectangle = calcRotatedSize(
                 Rectangle(
                     Dimension(
                         srcWidth, srcHeight
@@ -92,18 +93,17 @@ class ImageUtil {
                 ), angel
             )
 
-
             var res: BufferedImage? = null
-            res = BufferedImage(rectDes!!.width, rectDes.height, BufferedImage.TYPE_INT_RGB);
-            val g2: Graphics2D = res.createGraphics();
+            res = BufferedImage(rectDes.width, rectDes.height, BufferedImage.TYPE_INT_RGB)
+            val g2: Graphics2D = res.createGraphics()
             // transform(这里先平移、再旋转比较方便处理；绘图时会采用这些变化，绘图默认从画布的左上顶点开始绘画，源图片的左上顶点与画布左上顶点对齐，然后开始绘画，修改坐标原点后，绘画对应的画布起始点改变，起到平移的效果；然后旋转图片即可)
 
-            //平移（原理修改坐标系原点，绘图起点变了，起到了平移的效果，如果作用于旋转，则为旋转中心点）
-            g2.translate((rectDes.width - srcWidth) / 2, (rectDes.height - srcHeight) / 2);
+            // 平移（原理修改坐标系原点，绘图起点变了，达到了平移的效果，如果作用于旋转，则为旋转中心点）
+            g2.translate((rectDes.width - srcWidth) / 2, (rectDes.height - srcHeight) / 2)
 
 
-            //旋转（原理transalte(dx,dy)->rotate(radians)->transalte(-dx,-dy);修改坐标系原点后，旋转90度，然后再还原坐标系原点为(0,0),但是整个坐标系已经旋转了相应的度数 ）
-            g2.rotate(Math.toRadians(angel.toDouble()), srcWidth.toDouble() / 2, srcHeight.toDouble() / 2);
+            // 旋转（原理translate(dx,dy)->rotate(radians)->translate(-dx,-dy);修改坐标系原点后，旋转90度，然后再还原坐标系原点为(0,0),但是整个坐标系已经旋转了相应的度数 ）
+            g2.rotate(Math.toRadians(angel.toDouble()), srcWidth.toDouble() / 2, srcHeight.toDouble() / 2)
 
 //        //先旋转（以目标区域中心点为旋转中心点，源图片左上顶点对准目标区域中心点，然后旋转）
 //        g2.translate(rect_des.width/2,rect_des.height/ 2);
@@ -112,7 +112,7 @@ class ImageUtil {
 //        g2.translate(-src_width/2,-src_height/2);
 
 
-            g2.drawImage(src, null, null);
+            g2.drawImage(src, null, null)
             return imageToBytes(res, "PNG")
         }
 
@@ -126,11 +126,11 @@ class ImageUtil {
          * image格式字符串.如"gif","png"
          * @return byte数组
          */
-        fun imageToBytes(bImage: BufferedImage, format: String): ByteArrayOutputStream {
-            val out: ByteArrayOutputStream = ByteArrayOutputStream();
+        private fun imageToBytes(bImage: BufferedImage, format: String): ByteArrayOutputStream {
+            val out = ByteArrayOutputStream()
 
             try {
-                ImageIO.write(bImage, format, out);
+                ImageIO.write(bImage, format, out)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -143,14 +143,12 @@ class ImageUtil {
          * @param angel 角度
          * @return 目标矩形
          */
-        private fun CalcRotatedSize(src: Rectangle, angel: Int): Rectangle {
-            val cos = Math.abs(Math.cos(Math.toRadians(angel.toDouble())))
-            val sin = Math.abs(Math.sin(Math.toRadians(angel.toDouble())))
-            val des_width = (src.width * cos).toInt() + (src.height * sin).toInt()
-            val des_height = (src.height * cos).toInt() + (src.width * sin).toInt()
-            return Rectangle(Dimension(des_width, des_height))
+        private fun calcRotatedSize(src: Rectangle, angel: Int): Rectangle {
+            val cos = abs(cos(Math.toRadians(angel.toDouble())))
+            val sin = abs(sin(Math.toRadians(angel.toDouble())))
+            val desWidth = (src.width * cos).toInt() + (src.height * sin).toInt()
+            val desHeight = (src.height * cos).toInt() + (src.width * sin).toInt()
+            return Rectangle(Dimension(desWidth, desHeight))
         }
-
-
     }
 }

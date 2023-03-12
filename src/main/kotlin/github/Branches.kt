@@ -24,13 +24,10 @@ class Branches {
         .readTimeout(60000, TimeUnit.MILLISECONDS)
 
     fun getBranchesByRepo(projects: JSONArray): HashMap<String, List<Branch>> {
-
         var data: String? = null
         val list = HashMap<String, List<Branch>>()
         var response: Response? = null
         try {
-
-
             for (project in projects) {
                 val request = if (RateLimits().isResidue()) {
                     Request.Builder()
@@ -44,7 +41,6 @@ class Branches {
                         .addHeader("Accept", "application/vnd.github.v3+json").build()
                 }
 
-
                 response = client.build().newCall(request).execute()
 
                 if (response.isSuccessful) {
@@ -56,20 +52,16 @@ class Branches {
 
                 if (temp != null) {
                     for (t in temp) {
-
                         val name = JSONObject.parseObject(t.toString())!!.getString("name")
                         val protected = JSONObject.parseObject(t.toString()).getBoolean("protected")
-                        val sha = JSONObject.parseObject(JSONObject.parseObject(t.toString()).getString("commit"))
-                            .getString("sha")
-                        val url = JSONObject.parseObject(JSONObject.parseObject(t.toString()).getString("commit"))
-                            .getString("url")
+                        val sha = JSONObject.parseObject(JSONObject.parseObject(t.toString()).getString("commit")).getString("sha")
+                        val url = JSONObject.parseObject(JSONObject.parseObject(t.toString()).getString("commit")).getString("url")
                         tempList.add(Branch(name, sha, url, protected))
                     }
                 }
 
                 list[project.toString()] = tempList
             }
-
 
             return list
         } catch (e: SocketTimeoutException) {

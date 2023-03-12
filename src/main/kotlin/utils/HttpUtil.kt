@@ -11,7 +11,6 @@ class HttpUtil {
         private val client = OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS)
             .readTimeout(60000, TimeUnit.MILLISECONDS)
 
-
         fun request(method: Method, uri: String, body: RequestBody?, headers: Headers, logger: MiraiLogger): String? {
 
             /**
@@ -44,7 +43,6 @@ class HttpUtil {
         private fun http(request: Request, logger: MiraiLogger): String? {
             var response: Response? = null
             try {
-
                 response = client.build().newCall(request).execute()
 
                 if (response.isSuccessful) {
