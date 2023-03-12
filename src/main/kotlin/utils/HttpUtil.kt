@@ -55,7 +55,6 @@ class HttpUtil {
                 return http(request, logger)
             } catch (e: Exception) {
                 e.printStackTrace()
-//                logger.error(e.message)
                 return null
             } finally {
                 response?.close()

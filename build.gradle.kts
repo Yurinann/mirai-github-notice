@@ -19,7 +19,7 @@ repositories {
 dependencies {
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("com.squareup.okhttp3:okhttp:4.2.2")
-    implementation("com.alibaba:fastjson:1.2.76")
+    implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.24")
     implementation(kotlin("stdlib-jdk8"))
 }
 

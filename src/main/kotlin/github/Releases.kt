@@ -1,7 +1,7 @@
 package com.hcyacg.github
 
-import com.alibaba.fastjson.JSONArray
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.GithubTask
 import com.hcyacg.GithubTask.Companion.releases
 import com.hcyacg.GithubTask.Companion.token
@@ -18,9 +18,6 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.Any
-import kotlin.Exception
-import kotlin.OptIn
 import kotlin.toString
 
 
@@ -35,7 +32,7 @@ class Releases {
         projects: Any?,
     ) {
         val bots = Bot.instances
-        var time: kotlin.String? = null
+        var time: String? = null
         try {
             if (!RateLimits().isResidue()) {
                 headers.removeAll("Authorization")

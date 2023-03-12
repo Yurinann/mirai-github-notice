@@ -1,7 +1,7 @@
 package com.hcyacg.github
 
-import com.alibaba.fastjson.JSONArray
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.GithubTask
 import com.hcyacg.utils.CardUtil
 import com.hcyacg.utils.HttpUtil

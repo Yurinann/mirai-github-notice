@@ -1,8 +1,7 @@
 package com.hcyacg
 
-
-import com.alibaba.fastjson.JSONArray
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.entity.Branch
 import com.hcyacg.github.Commits
 import com.hcyacg.github.Issues
@@ -81,7 +80,6 @@ class GithubTask {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
 }

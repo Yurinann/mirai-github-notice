@@ -31,7 +31,7 @@ class CardUtil {
         return Image(imageId).plus(name).plus("\n")
             .plus("时间：$time").plus("\n")
             .plus("介绍：$message").plus("\n")
-            .plus("网址：$html").plus("\n")
+            .plus("网址：$html")
     }
 
 }

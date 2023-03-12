@@ -1,6 +1,6 @@
 package com.hcyacg.github
 
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.GithubTask.Companion.token
 import com.hcyacg.entity.RateLimit
 import net.mamoe.mirai.event.events.GroupMessageEvent

@@ -1,7 +1,7 @@
 package com.hcyacg.initial
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.GithubNotice
 import com.hcyacg.GithubTask
 import com.hcyacg.GithubTask.Companion.admin
@@ -62,7 +62,7 @@ class Configurations {
         /**
          * 加载配置文件
          */
-        fun load() {
+        private fun load() {
             runBlocking {
                 projectJson = JSONObject.parseObject(file.readText())
 

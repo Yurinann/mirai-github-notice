@@ -1,8 +1,7 @@
 package com.hcyacg.github
 
-import com.alibaba.fastjson.JSONArray
-import com.alibaba.fastjson.JSONObject
-import com.hcyacg.GithubTask
+import com.alibaba.fastjson2.JSONArray
+import com.alibaba.fastjson2.JSONObject
 import com.hcyacg.GithubTask.Companion.token
 import com.hcyacg.entity.Branch
 import net.mamoe.mirai.utils.MiraiLogger
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit
 class Branches {
     private val headers =
         Headers.Builder().add("Accept", "application/vnd.github.v3+json")
-            .add("Authorization", "token ${GithubTask.token}")
+            .add("Authorization", "token $token")
     private val requestBody: RequestBody? = null
     val logger: MiraiLogger = MiraiLogger.Factory.create(Branches::class, "Bot")
     private val client = OkHttpClient().newBuilder().connectTimeout(60000, TimeUnit.MILLISECONDS)
