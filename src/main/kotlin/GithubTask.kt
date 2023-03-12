@@ -32,7 +32,6 @@ class GithubTask {
         var pullItem = HashMap<String, PullItem>()
         var all: Int = 0
         var taskMillisecond: Long = 5000
-
     }
 
     /**
@@ -41,9 +40,8 @@ class GithubTask {
     private var time = Timer()
     var timerTask: TimerTask? = null
 
-
-    suspend fun openTask() {
-        logger.info("Github推送通知已开启")
+    fun startTask() {
+        logger.info("Github推送通知 已开启!")
         try {
             time.purge()
             time.schedule(object : TimerTask() {
@@ -56,7 +54,6 @@ class GithubTask {
                                     projects = e,
                                     branch = o.name,
                                 )
-
                             }
 
                             Releases().checkReleaseUpdate(
@@ -70,9 +67,10 @@ class GithubTask {
                             )
                         }
                     }
+
                     if (!switch) {
                         this.cancel()
-                        logger.info("Github推送通知已关闭")
+                        logger.info("Github推送通知 已关闭!")
                     }
                 }
             }, Date(), taskMillisecond)

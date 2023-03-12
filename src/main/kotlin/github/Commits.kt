@@ -73,7 +73,6 @@ class Commits {
 
                 sha["${projects}/$branch"] = jsonObject["sha"].toString()
 
-
                 val commit: Any? = jsonObject["commit"]
                 val committer: Any? = JSONObject.parseObject(commit.toString())["committer"]
                 name = JSONObject.parseObject(committer.toString())["name"]
@@ -93,12 +92,14 @@ class Commits {
                 for (e in groups) {
                     for (bot in bots) {
                         bot.getGroup(e.toString().toLong())?.sendMessage(
-                            CardUtil().process(
+                            CardUtil().processCommit(
                                 message = message.toString(),
                                 html = html.toString(),
                                 avatar = avatar.toString(),
                                 time = time.toString(),
-                                name = name.toString() + "为${projects.toString()}推送了代码",
+                                name = name.toString(),
+                                project = projects.toString(),
+                                branch = branch.toString(),
                                 event = bot.getFriendOrGroup(e.toString().toLong())
                             )
                         )
@@ -108,12 +109,14 @@ class Commits {
                 for (u in users) {
                     for (bot in bots) {
                         bot.getStranger(u.toString().toLong())?.sendMessage(
-                            CardUtil().process(
+                            CardUtil().processCommit(
                                 message = message.toString(),
                                 html = html.toString(),
                                 avatar = avatar.toString(),
                                 time = time.toString(),
-                                name = name.toString() + "为${projects.toString()}推送了代码",
+                                name = name.toString(),
+                                project = projects.toString(),
+                                branch = branch.toString(),
                                 event = bot.getFriendOrGroup(u.toString().toLong())
                             )
                         )
@@ -121,10 +124,10 @@ class Commits {
                 }
             }
         } catch (e: SocketTimeoutException) {
-            logger.warning("请求超时")
+            logger.warning("请求超时!")
             return
         } catch (e: ConnectException) {
-            logger.warning("无法连接到api.github.com")
+            logger.warning("无法连接到 api.github.com!")
             return
         } catch (e: Exception) {
             e.printStackTrace()

@@ -3,37 +3,38 @@ package com.hcyacg.command
 import com.hcyacg.GithubNotice
 import com.hcyacg.GithubTask
 import com.hcyacg.GithubTask.Companion.switch
-import com.hcyacg.initial.Configurations.Companion.overload
-
-
+import com.hcyacg.github.RateLimits
+import com.hcyacg.initial.Configurations
 import net.mamoe.mirai.console.command.*
-import net.mamoe.mirai.utils.MiraiLogger
 
-class Github : CompositeCommand(
-    GithubNotice,
-    "github",
-    description = "github"
-) {
-    var logger: MiraiLogger = MiraiLogger.Factory.create(Github::class, "Bot")
+object Github : CompositeCommand(GithubNotice, "github") {
 
-    @SubCommand("start", "启动")
-    @Description("开启监控")
-    suspend fun CommandSender.start() {
+    @SubCommand
+    @Description("启动监控")
+    suspend fun start(context: CommandContext) {
         switch = true
-        GithubTask().openTask()
+        GithubTask().startTask()
+        context.sender.sendMessage("启动成功!")
     }
 
-    @SubCommand("stop", "关闭")
+    @SubCommand
     @Description("停止监控")
-    fun CommandSender.stop() {
+    suspend fun stop(context: CommandContext) {
         switch = false
-        logger.info("请稍等片刻……")
+        context.sender.sendMessage("停止成功!")
     }
 
-    @SubCommand("reload", "重载")
+    @SubCommand
     @Description("重载配置")
-    fun CommandSender.reload() {
-        overload()
+    suspend fun reload(context: CommandContext) {
+        Configurations.reload()
+        context.sender.sendMessage("重载成功!")
+    }
+
+    @SubCommand
+    @Description("查看速率限制")
+    suspend fun rateLimit(context: CommandContext) {
+        RateLimits().getRateLimit(context)
     }
 
 }

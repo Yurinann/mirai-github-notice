@@ -64,10 +64,10 @@ class Branches {
 
             return list
         } catch (e: SocketTimeoutException) {
-            logger.warning("请求超时")
+            logger.warning("请求超时!")
             return getBranchesByRepo(projects)
         } catch (e: ConnectException) {
-            logger.warning("无法连接到api.github.com")
+            logger.warning("无法连接到 api.github.com!")
             return getBranchesByRepo(projects)
         } catch (e: Exception) {
             e.printStackTrace()

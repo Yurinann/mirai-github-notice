@@ -51,7 +51,7 @@ class HttpUtil {
 
                 return null
             } catch (e: ConnectException) {
-                GithubTask.logger.warning("无法连接到api.github.com")
+                GithubTask.logger.warning("无法连接到 api.github.com!")
                 return http(request, logger)
             } catch (e: Exception) {
                 e.printStackTrace()

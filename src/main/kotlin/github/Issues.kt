@@ -63,7 +63,6 @@ class Issues {
                 myDate = dateFormat.parse(issueItem.createdAt.toString().replace("Z", "+0000"))
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 time = sdf.format(Date(myDate.time.toString().toLong()))
-
             }
 
             if (myDate != null) {
@@ -74,14 +73,14 @@ class Issues {
 
             for (e in GithubTask.groups) {
                 for (bot in bots) {
-
                     bot.getGroup(e.toString().toLong())?.sendMessage(
                         CardUtil().process(
                             message = issueItem.title.toString(),
                             html = issueItem.htmlUrl.toString(),
                             avatar = issueItem.user!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = issueItem.user.login.toString() + "为${projects.toString()}提交了新问题",
+                            name = issueItem.user.login.toString(),
+                            project = projects.toString() + " 有新的 Issue!",
                             event = bot.getFriendOrGroup(e.toString().toLong())
                         )
                     )
@@ -96,17 +95,18 @@ class Issues {
                             html = issueItem.htmlUrl.toString(),
                             avatar = issueItem.user!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = issueItem.user.login.toString() + "为${projects.toString()}提交了新问题",
+                            name = issueItem.user.login.toString(),
+                            project = projects.toString() + " 有新的 Issue!",
                             event = bot.getFriendOrGroup(u.toString().toLong())
                         )
                     )
                 }
             }
         } catch (e: SocketTimeoutException) {
-            logger.warning("请求超时")
+            logger.warning("请求超时!")
             return
         } catch (e: ConnectException) {
-            GithubTask.logger.warning("无法连接到api.github.com")
+            GithubTask.logger.warning("无法连接到 api.github.com!")
             return
         } catch (e: Exception) {
             e.printStackTrace()

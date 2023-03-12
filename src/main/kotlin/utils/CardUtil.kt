@@ -19,6 +19,7 @@ class CardUtil {
         html: String,
         avatar: String,
         name: String,
+        project: String,
         time: String,
         event: Contact
     ): Message {
@@ -28,10 +29,41 @@ class CardUtil {
             toExternalResource.close()
         }
 
-        return Image(imageId).plus(name).plus("\n")
-            .plus("时间：$time").plus("\n")
-            .plus("介绍：$message").plus("\n")
-            .plus("网址：$html")
+        return Image(imageId).plus("\n")
+            .plus(project).plus("\n\n")
+            .plus("标题: $message").plus("\n")
+            .plus("时间: $time").plus("\n")
+            .plus("提交者: $name").plus("\n\n")
+            .plus("提交地址: $html")
+    }
+
+    /**
+     * 返回卡片
+     */
+    @Throws(Exception::class)
+    suspend fun processCommit(
+        message: String,
+        html: String,
+        avatar: String,
+        name: String,
+        project: String,
+        branch: String,
+        time: String,
+        event: Contact
+    ): Message {
+        val toExternalResource = ImageUtil.getImage(avatar).toByteArray().toExternalResource()
+        val imageId: String = toExternalResource.uploadAsImage(event).imageId
+        withContext(Dispatchers.IO) {
+            toExternalResource.close()
+        }
+
+        return Image(imageId).plus("\n")
+            .plus("当前仓库: $project").plus("\n")
+            .plus("当前分支: $branch").plus("\n\n")
+            .plus("提交内容: $message").plus("\n")
+            .plus("时间: $time").plus("\n")
+            .plus("提交者: $name").plus("\n\n")
+            .plus("提交地址: $html")
     }
 
 }

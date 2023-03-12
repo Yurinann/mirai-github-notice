@@ -23,8 +23,7 @@ import java.io.InputStream
 class Configurations {
     companion object {
         private val systemPath: String = System.getProperty("user.dir")
-        private val fileDirectory: File =
-            File(systemPath + File.separator + "config" + File.separator + "com.hcyacg.github-notice")
+        private val fileDirectory: File = File(systemPath + File.separator + "config" + File.separator + "com.hcyacg.github-notice")
         private val file: File = File(fileDirectory.path + File.separator + "setting.json")
         private var projectJson: JSONObject = JSONObject.parseObject("{}")
         val path: String = Configurations::class.java.protectionDomain.codeSource.location.path
@@ -34,17 +33,13 @@ class Configurations {
          * 初始化插件各项配置
          */
         fun init() {
-            /**
-             * 不存在配置文件将自动创建
-             */
-
+            // 不存在配置文件将自动创建
             if (!fileDirectory.exists() || !file.exists()) {
                 fileDirectory.mkdirs()
                 file.createNewFile()
-                val resourceAsStream: InputStream? =
-                    Configurations::class.java.classLoader.getResourceAsStream("setting.json")
+                val resourceAsStream: InputStream? = Configurations::class.java.classLoader.getResourceAsStream("setting.json")
                 resourceAsStream?.let { file.writeBytes(it.readAllBytes()) }
-                logger.warning("初始化配置文件,请在config/com.hcyacg.github-notice/setting.json配置相关参数")
+                logger.warning("初始化配置文件, 请在 config/com.hcyacg.github-notice/setting.json 配置相关参数!")
             } else {
                 load()
             }
@@ -53,10 +48,9 @@ class Configurations {
         /**
          * 重载配置文件
          */
-        fun overload() {
+        fun reload() {
             load()
             num = 0
-            logger.info("配置文件已重载")
         }
 
         /**
@@ -98,11 +92,11 @@ class Configurations {
                     GithubTask.all += branches[p]!!.size
                 }
                 if (GithubTask.all == 0) {
-                    logger.warning("[${GithubNotice.name}]加载配置完成,共【${GithubTask.all}】个分支,请检查是否配置完成,或检查网络问题")
+                    logger.warning("[${GithubNotice.name}]加载配置完成, 共读取到 ${GithubTask.all} 个分支, 请检查是否配置完成, 或检查是否为网络问题!")
                 } else {
-                    logger.info("[${GithubNotice.name}]加载配置完成,共【${GithubTask.all}】个分支")
+                    logger.info("[${GithubNotice.name}]加载配置完成, 共读取到 ${GithubTask.all} 个分支!")
                 }
-                logger.info("[${GithubNotice.name}]请不要开启插件后立即上传代码,插件需要一段时间获取所有项目的分支相关数据")
+                logger.info("[${GithubNotice.name}]请不要开启插件后立即上传代码, 插件需要一段时间获取所有项目的分支相关数据!")
             }
         }
     }

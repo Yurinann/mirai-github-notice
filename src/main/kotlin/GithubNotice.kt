@@ -1,5 +1,6 @@
 package com.hcyacg
 
+import com.hcyacg.GithubTask.Companion.switch
 import com.hcyacg.command.Github
 import com.hcyacg.github.RateLimits
 import com.hcyacg.initial.Configurations.Companion.init
@@ -27,15 +28,10 @@ object GithubNotice : KotlinPlugin(
 ) {
 
     override fun onEnable() {
-        logger.info { "github更新通知 loaded" }
-        CommandManager.registerCommand(Github(), true)
-        globalEventChannel().subscribeGroupMessages {
-            content { "/github rate_limit".contentEquals(message.contentToString()) } quoteReply {
-                RateLimits().getRateLimit(
-                    this
-                )
-            }
-        }
+        CommandManager.registerCommand(Github, true)
+        switch = true
+        GithubTask().startTask()
+        logger.info { "Github更新通知 已加载!" }
     }
 
     /**

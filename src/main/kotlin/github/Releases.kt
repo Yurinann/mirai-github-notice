@@ -77,7 +77,8 @@ class Releases {
                             html = release.htmlUrl.toString(),
                             avatar = release.author!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = release.assets!![0]!!.uploader!!.login.toString() + "为${projects.toString()}更新了版本",
+                            name = release.assets!![0]!!.uploader!!.login.toString(),
+                            project = projects.toString() + " 有新的版本!",
                             event = bot.getFriendOrGroup(e.toString().toLong())
                         )
                     )
@@ -92,17 +93,18 @@ class Releases {
                             html = release.htmlUrl.toString(),
                             avatar = release.author!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = release.assets!![0]!!.uploader!!.login.toString() + "为${projects.toString()}更新了版本",
+                            name = release.assets!![0]!!.uploader!!.login.toString(),
+                            project = projects.toString() + " 有新的版本!",
                             event = bot.getFriendOrGroup(u.toString().toLong())
                         )
                     )
                 }
             }
         } catch (e: SocketTimeoutException) {
-            logger.warning("请求超时")
+            logger.warning("请求超时!")
             return
         } catch (e: ConnectException) {
-            GithubTask.logger.warning("无法连接到api.github.com")
+            GithubTask.logger.warning("无法连接到 api.github.com!")
             return
         } catch (e: Exception) {
             e.printStackTrace()

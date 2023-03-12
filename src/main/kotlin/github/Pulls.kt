@@ -81,7 +81,8 @@ class Pulls {
                             html = pullItem.htmlUrl.toString(),
                             avatar = pullItem.user!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = pullItem.user.login.toString() + "为${projects.toString()}发起了合并请求",
+                            name = pullItem.user.login.toString(),
+                            project = projects.toString() + " 有新的合并请求!",
                             event = bot.getFriendOrGroup(e.toString().toLong())
                         )
                     )
@@ -96,17 +97,18 @@ class Pulls {
                             html = pullItem.htmlUrl.toString(),
                             avatar = pullItem.user!!.avatarUrl.toString(),
                             time = time.toString(),
-                            name = pullItem.user.login.toString() + "为${projects.toString()}发起了合并请求",
+                            name = pullItem.user.login.toString(),
+                            project = projects.toString() + " 有新的合并请求!",
                             event = bot.getFriendOrGroup(u.toString().toLong())
                         )
                     )
                 }
             }
         } catch (e: SocketTimeoutException) {
-            logger.warning("请求超时")
+            logger.warning("请求超时!")
             return
         } catch (e: ConnectException) {
-            GithubTask.logger.warning("无法连接到api.github.com")
+            GithubTask.logger.warning("无法连接到 api.github.com!")
             return
         } catch (e: Exception) {
             e.printStackTrace()
